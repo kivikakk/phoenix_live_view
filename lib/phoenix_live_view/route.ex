@@ -58,7 +58,7 @@ defmodule Phoenix.LiveView.Route do
   def live_link_info_without_checks(endpoint, router, %URI{} = parsed_uri)
       when is_atom(endpoint) and is_atom(router) do
     %URI{host: host, path: path, query: query} = parsed_uri
-    query_params = if query, do: Plug.Conn.Query.decode(query), else: %{}
+    query_params = if query, do: Plug.Conn.Query.decode(query, [], Plug.Conn.InvalidQueryError, false), else: %{}
 
     split_path =
       for segment <- String.split(path || "", "/"), segment != "", do: URI.decode(segment)
